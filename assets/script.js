@@ -78,18 +78,34 @@ $(function() {
 					var units = "";
 					var last_val;
 					//check name of column and use correct unit
-					if (friendly == "temperature"){
+					if (friendly == "pumpTemperature"){
 						units = "F";
-						friendly = "Temperature";
+						friendly = "Pump Temperature";
 				
 					}else if (friendly == "flow"){
-						units = "Flow";
+						units = "GPM";
 						friendly = "Flow";
 						
 					}else if(friendly == "pressure"){
 						units = "PSI";
 						friendly = "Pressure";
 						
+					}else if(friendly == "pressure2"){
+						units="PSI";
+						friendly="Pressure2";
+						
+					}else if(friendly == "humidity"){
+						units = "%";
+						friendly= "Humidity";
+						
+					}else if(friendly == "current"){
+						units = "A";
+						friendly = "Current";
+						
+					}else if(friendly == "atmoPressure"){
+						units = "Pa";
+						friendly = "Barometric Pressure";
+					
 					}
 
 					console.log(raw_data, j);
@@ -101,19 +117,19 @@ $(function() {
 					}
 
 					// only push if data returned
-					if(graphType == "all"||(graphType=="temper" && friendly == "Temperature")||(graphType=="press" && friendly == "Pressure")||(graphType == "flow"&& friendly == "Flow")){
+					if(graphType == "all"||(graphType=="temper" && friendly == "Pump Temperature")||(graphType=="press" && friendly == "Pressure")||(graphType == "flow"&& friendly == "Flow")(graphType=="press2" && friendly == "Pressure2")||(graphType=="bpress" && friendly == "Barometric Pressure")||(graphType=="curr" && friendly == "Current")||(graphType=="humid" && friendly == "Humidity")){
 						
 						if (data.length > 0) {
-							last_val = data[data.length-1]
+							last_val = data[data.length-1];
 							// put data into data_to_plot
 							data_to_plot.push({
 								label: friendly + ' - '+ last_val[1] + ' ' +units,
 								data: data,
 								units: units
 							});
+							
 						}
 					}
-				}
 				$("#placeholder").text('');
 				$.plot("#placeholder", data_to_plot, graph_options);
 				$("#appconsole").text('Data Plotted');
@@ -159,18 +175,20 @@ $(function() {
 		selectedValue = $("#graphPick").val();
 		if (selectedValue == "temperature"){
 			graphType = "temper";
-			
 		}else if(selectedValue == "all"){
 			graphType = "all";
-			
 		}else if(selectedValue == "pressure"){
 			graphType = "press";
-			
 		}else if(selectedValue == "flow"){
 			graphType = "flow";
-			
 		}else if(selectedValue == "humidity"){
 			graphType = "humid"
+		}else if(selectedValue == "pressure2"){
+			graphType="press2";
+		}else if(selectedValue == "atmoPressure"){
+			graphType="bpress";
+		}else if(selectedValue == "current"){
+			graphType="curr";
 		}
 	});
 
